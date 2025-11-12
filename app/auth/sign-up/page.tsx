@@ -1,8 +1,6 @@
 "use client"
 
 import type React from "react"
-
-import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
@@ -22,7 +20,7 @@ export default function SignUpPage() {
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault()
-    const supabase = createClient()
+    // 簡易モック実装：実際の認証処理は別途実装してください
     setIsLoading(true)
     setError(null)
 
@@ -38,24 +36,11 @@ export default function SignUpPage() {
       return
     }
 
-    try {
-      const { error } = await supabase.auth.signUp({
-        email,
-        password,
-        options: {
-          emailRedirectTo: process.env.NEXT_PUBLIC_DEV_SUPABASE_REDIRECT_URL || `${window.location.origin}/home`,
-          data: {
-            display_name: displayName,
-          },
-        },
-      })
-      if (error) throw error
-      router.push("/auth/sign-up-success")
-    } catch (error: unknown) {
-      setError(error instanceof Error ? error.message : "登録に失敗しました")
-    } finally {
+    // デモ用：ネットワークリクエストを行わず成功として扱う
+    setTimeout(() => {
       setIsLoading(false)
-    }
+      router.push("/auth/sign-up-success")
+    }, 600)
   }
 
   return (

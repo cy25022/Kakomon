@@ -1,7 +1,6 @@
 "use client"
 
 import type React from "react"
-import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -20,8 +19,7 @@ export default function LoginPage() {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault()
-    // （デモのため、実際のSupabaseロジックは維持しつつ、UIを変更）
-    // ... 既存のロジック ...
+    // 簡易モック：実際の認証は別途実装
     alert("デモ：ログイン処理（モック）")
     router.push("/home")
   }

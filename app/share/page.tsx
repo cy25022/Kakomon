@@ -5,11 +5,12 @@ import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState, useEffect } from "react"
 import { ChevronLeft } from "lucide-react"
-import { getMockFaculties, getMockDepartments, getMockSubjects, getMockProfessors } from "@/lib/mock-data"
+import { getMockFaculties, getMockDepartments, getMockSubjects, getMockProfessors, getMockDepartmentById, getMockSubjectById } from "@/lib/mock-data"
 
 // PDFのデザインカンプ (2枚目、3枚目) に基づいてレイアウトを変更
 // ステップ管理を追加
@@ -63,7 +64,7 @@ export default function SharePage() {
     }
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setIsLoading(true)
 
