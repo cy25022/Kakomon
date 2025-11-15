@@ -1,72 +1,69 @@
-import { redirect } from "next/navigation"
-import { createClient } from "@/lib/supabase/server"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import Link from "next/link"
 import { ChevronLeft } from "lucide-react"
+import { getMockProfessors, getMockSubjectById } from "@/lib/mock-data"
+import { redirect } from "next/navigation"
 
+// PDF 5枚目 (閲覧画面) のデザインを適用
 export default async function ProfessorsPage({
   searchParams,
 }: {
   searchParams: Promise<{ subject: string }>
 }) {
   const params = await searchParams
-  const supabase = await createClient()
-
-  const { data, error } = await supabase.auth.getUser()
-  if (error || !data?.user) {
-    redirect("/auth/login")
-  }
 
   if (!params.subject) {
     redirect("/study/faculties")
   }
 
-  const { data: subject } = await supabase
-    .from("subjects")
-    .select("*, departments(*, faculties(*))")
-    .eq("id", params.subject)
-    .single()
-
-  const { data: professors } = await supabase
-    .from("professors")
-    .select("*")
-    .eq("subject_id", params.subject)
-    .order("name")
+  const subject = getMockSubjectById(params.subject)
+  const professors = getMockProfessors(params.subject)
 
   return (
-    <div className="min-h-svh bg-gradient-to-br from-background to-muted">
-      <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center gap-4 px-4">
-          <Button variant="ghost" size="icon" asChild>
+    <div className="flex flex-col min-h-svh bg-background">
+      
+      {/* PDFの青いヘッダー */}
+      <header className="bg-primary text-primary-foreground shadow-md sticky top-0 z-10">
+        <div className="container mx-auto flex h-16 items-center justify-between px-4">
+          <Button variant="ghost" size="icon" asChild className="hover:bg-primary/80">
             <Link href={`/study/subjects?department=${subject?.department_id}`}>
-              <ChevronLeft className="h-5 w-5" />
+              <ChevronLeft className="h-6 w-6" />
               <span className="sr-only">戻る</span>
             </Link>
           </Button>
-          <div>
-            <h1 className="text-xl font-bold">教授を選択</h1>
-            <p className="text-sm text-muted-foreground">
-              {subject?.departments?.faculties?.name} / {subject?.departments?.name} / {subject?.name}
-            </p>
+          <div className="text-center absolute left-1/2 -translate-x-1/2">
+            <h1 className="text-xl font-bold">
+              {subject?.name}
+            </h1>
           </div>
+          <div></div>
         </div>
       </header>
 
-      <main className="container px-4 py-8">
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 max-w-6xl mx-auto">
-          {professors?.map((professor) => (
-            <Card key={professor.id} className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <CardTitle>{professor.name}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Button asChild className="w-full">
-                  <Link href={`/study/professor/${professor.id}`}>選択</Link>
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
+      {/* メインコンテンツ */}
+      <main className="container mx-auto flex flex-1 flex-col p-4 py-8">
+        <div className="w-full max-w-md mx-auto space-y-6">
+          
+          <h2 className="text-xl font-semibold text-center text-foreground">
+            教授を選んでください
+          </h2>
+
+          <div className="flex flex-col gap-4">
+            {professors.map((professor) => (
+              <Button
+                key={professor.id}
+                asChild
+                variant="secondary" // PDFのグレーボタン (#E0E0E0)
+                className="w-full justify-start"
+                size="default" // h-14
+              >
+                <Link href={`/study/professor/${professor.id}`}>
+                  {professor.name}
+                </Link>
+              </Button>
+            ))}
+          </div>
+          
         </div>
       </main>
     </div>

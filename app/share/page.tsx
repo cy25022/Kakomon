@@ -1,277 +1,260 @@
 "use client"
 
 import type React from "react"
-
-import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState, useEffect } from "react"
 import { ChevronLeft } from "lucide-react"
+import { getMockFaculties, getMockDepartments, getMockSubjects, getMockProfessors, getMockDepartmentById, getMockSubjectById } from "@/lib/mock-data"
 
-type Faculty = { id: string; name: string }
-type Department = { id: string; name: string; faculty_id: string }
-type Subject = { id: string; name: string; department_id: string }
-type Professor = { id: string; name: string; subject_id: string }
-
+// PDFのデザインカンプ (2枚目、3枚目) に基づいてレイアウトを変更
+// ステップ管理を追加
 export default function SharePage() {
-  const [title, setTitle] = useState("")
-  const [content, setContent] = useState("")
-  const [year, setYear] = useState("")
-  const [semester, setSemester] = useState("")
+  const [step, setStep] = useState(1) // 1: 選択, 2: アップロード
+
+  // ステップ1のデータ
   const [selectedFaculty, setSelectedFaculty] = useState("")
   const [selectedDepartment, setSelectedDepartment] = useState("")
   const [selectedSubject, setSelectedSubject] = useState("")
   const [selectedProfessor, setSelectedProfessor] = useState("")
+  const [year, setYear] = useState("")
+  const [semester, setSemester] = useState("")
+  const [examType, setExamType] = useState("")
 
-  const [faculties, setFaculties] = useState<Faculty[]>([])
-  const [departments, setDepartments] = useState<Department[]>([])
-  const [subjects, setSubjects] = useState<Subject[]>([])
-  const [professors, setProfessors] = useState<Professor[]>([])
+  // ステップ2のデータ
+  const [title, setTitle] = useState("") // PDFにはないが、元のコードにあったため維持
+  const [content, setContent] = useState("") // PDFでは画像アップロードだが、デモはテキスト入力
 
-  const [error, setError] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
-  const supabase = createClient()
 
-  useEffect(() => {
-    loadFaculties()
-  }, [])
+  // 依存データ
+  const faculties = getMockFaculties()
+  const departments = selectedFaculty ? getMockDepartments(selectedFaculty) : []
+  const subjects = selectedDepartment ? getMockSubjects(selectedDepartment) : []
+  const professors = selectedSubject ? getMockProfessors(selectedSubject) : []
 
+  // 選択リセット
   useEffect(() => {
-    if (selectedFaculty) {
-      loadDepartments(selectedFaculty)
-      setSelectedDepartment("")
-      setSelectedSubject("")
-      setSelectedProfessor("")
-    }
+    setSelectedDepartment("")
+    setSelectedSubject("")
+    setSelectedProfessor("")
   }, [selectedFaculty])
 
   useEffect(() => {
-    if (selectedDepartment) {
-      loadSubjects(selectedDepartment)
-      setSelectedSubject("")
-      setSelectedProfessor("")
-    }
+    setSelectedSubject("")
+    setSelectedProfessor("")
   }, [selectedDepartment])
 
   useEffect(() => {
-    if (selectedSubject) {
-      loadProfessors(selectedSubject)
-      setSelectedProfessor("")
-    }
+    setSelectedProfessor("")
   }, [selectedSubject])
 
-  const loadFaculties = async () => {
-    const { data } = await supabase.from("faculties").select("*").order("name")
-    if (data) setFaculties(data)
+  const handleNextStep = () => {
+    // ここでバリデーション
+    if (step === 1 && selectedFaculty && selectedDepartment && selectedSubject && selectedProfessor) {
+      setStep(2)
+    } else if (step === 1) {
+      alert("すべての項目を選択してください")
+    }
   }
 
-  const loadDepartments = async (facultyId: string) => {
-    const { data } = await supabase.from("departments").select("*").eq("faculty_id", facultyId).order("name")
-    if (data) setDepartments(data)
-  }
-
-  const loadSubjects = async (departmentId: string) => {
-    const { data } = await supabase.from("subjects").select("*").eq("department_id", departmentId).order("name")
-    if (data) setSubjects(data)
-  }
-
-  const loadProfessors = async (subjectId: string) => {
-    const { data } = await supabase.from("professors").select("*").eq("subject_id", subjectId).order("name")
-    if (data) setProfessors(data)
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
+
+    // バリデーション
+    if (!title.trim()) {
+      alert("タイトルを入力してください")
+      return
+    }
+
+    if (!content.trim()) {
+      alert("問題内容を入力してください")
+      return
+    }
+
     setIsLoading(true)
-    setError(null)
 
     try {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser()
-      if (!user) throw new Error("ログインが必要です")
-
-      const { error: insertError } = await supabase.from("past_exams").insert({
-        professor_id: selectedProfessor,
-        user_id: user.id,
-        title,
-        content,
-        year: year ? Number.parseInt(year) : null,
-        semester: semester || null,
-      })
-
-      if (insertError) throw insertError
-
-      router.push("/home")
-    } catch (error: unknown) {
-      setError(error instanceof Error ? error.message : "投稿に失敗しました")
+      // ここで実際のアップロードAPIを呼び出します
+      // 例: const response = await fetch('/api/exams', { ... })
+      
+      // デモ用：2秒待機
+      await new Promise(resolve => setTimeout(resolve, 2000))
+      
+      // PDF 4枚目（アップロード成功）に遷移
+      // 本来は sign-up-success ではなく、upload-success ページが良いが、
+      // 既存のファイル構成を活かすため、文言が似ている sign-up-success を流用
+      router.push("/auth/sign-up-success") // 共有完了画面にリダイレクト
+    } catch (err) {
+      alert("アップロードに失敗しました")
     } finally {
       setIsLoading(false)
     }
   }
 
   return (
-    <div className="min-h-svh bg-gradient-to-br from-background to-muted">
-      <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container flex h-16 items-center gap-4 px-4">
-          <Button variant="ghost" size="icon" asChild>
-            <Link href="/home">
-              <ChevronLeft className="h-5 w-5" />
-              <span className="sr-only">戻る</span>
-            </Link>
+    <div className="flex flex-col min-h-svh bg-background">
+      
+      {/* PDFの青いヘッダー (戻るボタン付き) */}
+      <header className="bg-primary text-primary-foreground shadow-md sticky top-0 z-10">
+        <div className="container mx-auto flex h-16 items-center justify-between px-4">
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            asChild={step === 1} // ステップ1ならホームへ
+            onClick={step === 2 ? () => setStep(1) : undefined} // ステップ2ならステップ1へ
+            className="hover:bg-primary/80"
+          >
+            {step === 1 ? (
+              <Link href="/home">
+                <ChevronLeft className="h-6 w-6" />
+                <span className="sr-only">戻る</span>
+              </Link>
+            ) : (
+              <>
+                <ChevronLeft className="h-6 w-6" />
+                <span className="sr-only">戻る</span>
+              </>
+            )}
           </Button>
-          <h1 className="text-xl font-bold">過去問を共有</h1>
+          <h1 className="text-xl font-bold absolute left-1/2 -translate-x-1/2">
+            過去問共有
+          </h1>
+          <div></div>
         </div>
       </header>
 
-      <main className="container px-4 py-8">
-        <Card className="max-w-2xl mx-auto">
-          <CardHeader>
-            <CardTitle>過去問を投稿</CardTitle>
-            <CardDescription>過去問を共有して、みんなの学習をサポートしましょう</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="space-y-4">
-                <div className="grid gap-2">
-                  <Label htmlFor="faculty">学部</Label>
-                  <Select value={selectedFaculty} onValueChange={setSelectedFaculty}>
-                    <SelectTrigger id="faculty">
-                      <SelectValue placeholder="学部を選択" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {faculties.map((faculty) => (
-                        <SelectItem key={faculty.id} value={faculty.id}>
-                          {faculty.name}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                {selectedFaculty && (
-                  <div className="grid gap-2">
-                    <Label htmlFor="department">学科</Label>
-                    <Select value={selectedDepartment} onValueChange={setSelectedDepartment}>
-                      <SelectTrigger id="department">
-                        <SelectValue placeholder="学科を選択" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {departments.map((department) => (
-                          <SelectItem key={department.id} value={department.id}>
-                            {department.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                )}
-
-                {selectedDepartment && (
-                  <div className="grid gap-2">
-                    <Label htmlFor="subject">科目</Label>
-                    <Select value={selectedSubject} onValueChange={setSelectedSubject}>
-                      <SelectTrigger id="subject">
-                        <SelectValue placeholder="科目を選択" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {subjects.map((subject) => (
-                          <SelectItem key={subject.id} value={subject.id}>
-                            {subject.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                )}
-
-                {selectedSubject && (
-                  <div className="grid gap-2">
-                    <Label htmlFor="professor">教授</Label>
-                    <Select value={selectedProfessor} onValueChange={setSelectedProfessor}>
-                      <SelectTrigger id="professor">
-                        <SelectValue placeholder="教授を選択" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {professors.map((professor) => (
-                          <SelectItem key={professor.id} value={professor.id}>
-                            {professor.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                )}
+      {/* メインコンテンツ */}
+      <main className="container mx-auto flex flex-1 flex-col p-4">
+        {step === 1 && (
+          // PDF 2枚目: 選択画面
+          <div className="w-full max-w-md mx-auto space-y-8 py-8">
+            <div className="space-y-6">
+              <div className="grid gap-2">
+                <Label htmlFor="faculty" className="text-base font-semibold">学部・専攻</Label>
+                <Select value={selectedFaculty} onValueChange={setSelectedFaculty}>
+                  <SelectTrigger id="faculty" className="h-12 rounded-2xl shadcn-select-trigger">
+                    <SelectValue placeholder="学部を選択" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {faculties.map((faculty) => (
+                      <SelectItem key={faculty.id} value={faculty.id}>
+                        {faculty.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
 
-              {selectedProfessor && (
-                <>
-                  <div className="grid gap-2">
-                    <Label htmlFor="title">タイトル</Label>
-                    <Input
-                      id="title"
-                      placeholder="例: 2023年度 期末試験"
-                      required
-                      value={title}
-                      onChange={(e) => setTitle(e.target.value)}
-                    />
-                  </div>
+              <div className="grid gap-2">
+                <Label htmlFor="department" className="text-base font-semibold">学科・コース</Label>
+                <Select value={selectedDepartment} onValueChange={setSelectedDepartment} disabled={!selectedFaculty}>
+                  <SelectTrigger id="department" className="h-12 rounded-2xl shadcn-select-trigger">
+                    <SelectValue placeholder="学科を選択" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {departments.map((department) => (
+                      <SelectItem key={department.id} value={department.id}>
+                        {department.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
 
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="grid gap-2">
-                      <Label htmlFor="year">年度（任意）</Label>
-                      <Input
-                        id="year"
-                        type="number"
-                        placeholder="2023"
-                        value={year}
-                        onChange={(e) => setYear(e.target.value)}
-                      />
-                    </div>
-                    <div className="grid gap-2">
-                      <Label htmlFor="semester">学期（任意）</Label>
-                      <Select value={semester} onValueChange={setSemester}>
-                        <SelectTrigger id="semester">
-                          <SelectValue placeholder="選択" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="前期">前期</SelectItem>
-                          <SelectItem value="後期">後期</SelectItem>
-                          <SelectItem value="通年">通年</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
+              <div className="grid gap-2">
+                <Label htmlFor="subject" className="text-base font-semibold">科目</Label>
+                <Select value={selectedSubject} onValueChange={setSelectedSubject} disabled={!selectedDepartment}>
+                  <SelectTrigger id="subject" className="h-12 rounded-2xl shadcn-select-trigger">
+                    <SelectValue placeholder="科目を選択" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {subjects.map((subject) => (
+                      <SelectItem key={subject.id} value={subject.id}>
+                        {subject.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
 
-                  <div className="grid gap-2">
-                    <Label htmlFor="content">問題内容</Label>
-                    <Textarea
-                      id="content"
-                      placeholder="過去問の内容を入力してください"
-                      required
-                      value={content}
-                      onChange={(e) => setContent(e.target.value)}
-                      rows={10}
-                    />
-                  </div>
+              <div className="grid gap-2">
+                <Label htmlFor="professor" className="text-base font-semibold">教授</Label>
+                <Select value={selectedProfessor} onValueChange={setSelectedProfessor} disabled={!selectedSubject}>
+                  <SelectTrigger id="professor" className="h-12 rounded-2xl shadcn-select-trigger">
+                    <SelectValue placeholder="教授を選択" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {professors.map((professor) => (
+                      <SelectItem key={professor.id} value={professor.id}>
+                        {professor.name}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
 
-                  {error && <p className="text-sm text-destructive">{error}</p>}
+            <Button 
+              onClick={handleNextStep}
+              className="w-full max-w-xs mx-auto flex shadcn-button"
+            >
+              次へ
+            </Button>
+          </div>
+        )}
 
-                  <Button type="submit" className="w-full" disabled={isLoading}>
-                    {isLoading ? "投稿中..." : "投稿する"}
-                  </Button>
-                </>
-              )}
-            </form>
-          </CardContent>
-        </Card>
+        {step === 2 && (
+          // PDF 3枚目: アップロード画面
+          <form onSubmit={handleSubmit} className="w-full max-w-md mx-auto space-y-8 py-8">
+            <div className="text-center space-y-2">
+              <h2 className="text-lg font-semibold">{getMockDepartmentById(selectedDepartment)?.name}</h2>
+              <p className="text-lg text-muted-foreground">{getMockSubjectById(selectedSubject)?.name}</p>
+            </div>
+            
+            <div className="space-y-6">
+              {/* PDFでは「Import +」だが、デモなのでテキスト入力 */}
+               <div className="grid gap-2">
+                <Label htmlFor="title" className="text-base font-semibold">タイトル</Label>
+                <Input
+                  id="title"
+                  placeholder="例: 2023年度 期末試験"
+                  required
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  className="h-12 rounded-2xl"
+                />
+              </div>
+
+              <div className="grid gap-2">
+                <Label htmlFor="content" className="text-base font-semibold">問題内容 (デモ用)</Label>
+                <Textarea
+                  id="content"
+                  placeholder="PDFのデザインでは画像アップロードですが、デモのためテキスト入力で代替します。"
+                  required
+                  value={content}
+                  onChange={(e) => setContent(e.target.value)}
+                  rows={8}
+                  className="rounded-2xl"
+                />
+              </div>
+            </div>
+
+            <Button 
+              type="submit"
+              className="w-full max-w-xs mx-auto flex shadcn-button"
+              disabled={isLoading}
+            >
+              {isLoading ? "アップロード中..." : "アップロードする"}
+            </Button>
+          </form>
+        )}
       </main>
     </div>
   )

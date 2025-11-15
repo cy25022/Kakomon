@@ -1,20 +1,15 @@
+<<<<<<< HEAD
 // al25133/kakomon/Kakomon-5b576818e89f5e0049ab3ff32aa56ea8dec4e81a/app/home/page.tsx
 import { redirect } from "next/navigation"
 import { createClient } from "@/lib/supabase/server"
+=======
+>>>>>>> upstream/main
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { BookOpen, Share2, User, Settings } from "lucide-react"
+import { mockUser } from "@/lib/mock-data"
 
-export default async function HomePage() {
-  const supabase = await createClient()
-
-  const { data, error } = await supabase.auth.getUser()
-  if (error || !data?.user) {
-    redirect("/auth/login")
-  }
-
-  const { data: profile } = await supabase.from("profiles").select("*").eq("id", data.user.id).single()
-
+export default function HomePage() {
   return (
     <div className="min-h-svh bg-gradient-to-br from-background to-muted">
       <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -35,9 +30,15 @@ export default async function HomePage() {
       </header>
 
       <main className="container px-4 py-8">
+<<<<<<< HEAD
         <div className="mb-8 text-center">
           <h2 className="text-3xl font-bold mb-2">ようこそ、{profile?.display_name || "ゲスト"}さん</h2>
           <p className="text-muted-foreground">何をしますか？</p>
+=======
+        <div className="mb-8">
+          <h2 className="text-3xl font-bold mb-2">ようこそ、{mockUser.display_name}さん</h2>
+          <p className="text-muted-foreground">過去問を閲覧したり、共有したりできます</p>
+>>>>>>> upstream/main
         </div>
 
         {/* PDFのデザイン  に合わせてボタンを配置 */}
