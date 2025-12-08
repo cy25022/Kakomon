@@ -1,8 +1,15 @@
 import { Button } from "@/components/ui/button"
  
 import { ChevronLeft } from "lucide-react"
-import { getMockExamById, getMockProfessorById, getMockQuestions } from "@/lib/mock-data"
+import { getMockExamById, getMockProfessorById, getMockQuestions, mockExams } from "@/lib/mock-data"
 import { redirect } from "next/navigation"
+
+// Static Export用にビルド時に生成するパスのリストを定義
+export function generateStaticParams() {
+  return mockExams.map((exam) => ({
+    id: exam.id,
+  }))
+}
 
 // PDF 6枚目 (問題表示画面) のデザインを適用
 export default async function ExamDetailPage({

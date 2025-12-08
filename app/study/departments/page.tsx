@@ -1,24 +1,28 @@
-import { Button } from "@/components/ui/button"
-import Link from "next/link"
+"use client"
 
+import { Button } from "@/components/ui/button"
 import { ChevronLeft } from "lucide-react"
 import { getMockDepartments, getMockFacultyById } from "@/lib/mock-data"
-import { redirect } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
+import Link from "next/link"
+import { Suspense, useEffect } from "react"
 
 // PDF 5枚目 (閲覧画面) のデザインを適用
-export default async function DepartmentsPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ faculty: string }>
-}) {
-  const params = await searchParams
+function DepartmentsContent() {
+  const searchParams = useSearchParams()
+  const facultyId = searchParams.get("faculty")
+  const router = useRouter()
 
-  if (!params.faculty) {
-    redirect("/study/faculties")
-  }
+  useEffect(() => {
+    if (!facultyId) {
+      router.push("/study/faculties")
+    }
+  }, [facultyId, router])
 
-  const faculty = getMockFacultyById(params.faculty)
-  const departments = getMockDepartments(params.faculty)
+  if (!facultyId) return null
+
+  const faculty = getMockFacultyById(facultyId)
+  const departments = getMockDepartments(facultyId)
 
   return (
     <div className="flex flex-col min-h-svh bg-background">
@@ -67,5 +71,13 @@ export default async function DepartmentsPage({
         </div>
       </main>
     </div>
+  )
+}
+
+export default function DepartmentsPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <DepartmentsContent />
+    </Suspense>
   )
 }

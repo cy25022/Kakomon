@@ -1,23 +1,27 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
- 
 import { ChevronLeft } from "lucide-react"
 import { getMockSubjects, getMockDepartmentById } from "@/lib/mock-data"
-import { redirect } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
+import { Suspense, useEffect } from "react"
 
 // PDF 5枚目 (閲覧画面) のデザインを適用
-export default async function SubjectsPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ department: string }>
-}) {
-  const params = await searchParams
+function SubjectsContent() {
+  const searchParams = useSearchParams()
+  const departmentId = searchParams.get("department")
+  const router = useRouter()
 
-  if (!params.department) {
-    redirect("/study/faculties")
-  }
+  useEffect(() => {
+    if (!departmentId) {
+      router.push("/study/faculties")
+    }
+  }, [departmentId, router])
 
-  const department = getMockDepartmentById(params.department)
-  const subjects = getMockSubjects(params.department)
+  if (!departmentId) return null
+
+  const department = getMockDepartmentById(departmentId)
+  const subjects = getMockSubjects(departmentId)
 
   return (
     <div className="flex flex-col min-h-svh bg-background">
@@ -63,5 +67,13 @@ export default async function SubjectsPage({
         </div>
       </main>
     </div>
+  )
+}
+
+export default function SubjectsPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SubjectsContent />
+    </Suspense>
   )
 }
