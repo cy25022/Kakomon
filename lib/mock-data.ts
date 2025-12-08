@@ -1,9 +1,8 @@
-// モックデータ: サンプルプロジェクト用
 
 export const mockUser = {
   id: "mock-user-1",
-  email: "demo@example.com",
-  display_name: "デモユーザー",
+  email: "demo@shibaura-it.ac.jp",
+  display_name: "芝浦 太郎",
   created_at: new Date().toISOString(),
 }
 
@@ -82,61 +81,52 @@ export const mockProfessors = [
 
 export const mockExams = [
   {
-    id: "1",
-    professor_id: "1",
-    title: "2023年度 中間試験",
+    id: "e1",
+    professor_id: "p1",
+    title: "2023年度 前期中間試験",
     year: 2023,
     semester: "前期",
     exam_type: "中間試験",
     content:
-      "1. 二分探索木について説明せよ。\n2. クイックソートのアルゴリズムを擬似コードで記述せよ。\n3. ハッシュテーブルの衝突解決法を2つ挙げ、それぞれの特徴を述べよ。",
+      "1. 単純支持はりのせん断力図(SFD)と曲げモーメント図(BMD)を描け。\n2. 応力とひずみの関係について、フックの法則を用いて説明せよ。",
     user_id: "mock-user-1",
-    created_at: new Date("2023-07-15").toISOString(),
+    created_at: new Date("2023-06-20").toISOString(),
   },
   {
-    id: "2",
-    professor_id: "1",
-    title: "2023年度 期末試験",
+    id: "e2",
+    professor_id: "p2",
+    title: "2023年度 後期期末試験",
     year: 2023,
-    semester: "前期",
+    semester: "後期",
     exam_type: "期末試験",
     content:
-      "1. グラフの深さ優先探索（DFS）と幅優先探索（BFS）について説明せよ。\n2. 動的計画法を用いたナップサック問題の解法を説明せよ。\n3. 最短経路問題のアルゴリズムを2つ挙げ、それぞれの計算量を述べよ。",
+      "1. クイックソートのアルゴリズムを擬似コードで記述し、計算量について考察せよ。\n2. 二分探索木の探索、挿入、削除の操作について説明せよ。",
     user_id: "mock-user-1",
-    created_at: new Date("2023-09-20").toISOString(),
+    created_at: new Date("2024-01-25").toISOString(),
   },
   {
-    id: "3",
-    professor_id: "2",
-    title: "2024年度 中間試験",
+    id: "e3",
+    professor_id: "p5",
+    title: "2024年度 設計課題講評",
     year: 2024,
     semester: "前期",
-    exam_type: "中間試験",
+    exam_type: "課題提出",
     content:
-      "1. 平衡二分探索木（AVL木）について説明せよ。\n2. ヒープソートのアルゴリズムと計算量について述べよ。\n3. 赤黒木の性質を列挙し、その利点を説明せよ。",
+      "「都市の中の隠れ家」をテーマにした設計課題において、各自のコンセプトと空間構成の意図を記述すること。また、周辺環境との関係性についても触れること。",
     user_id: "mock-user-1",
-    created_at: new Date("2024-07-10").toISOString(),
+    created_at: new Date("2024-07-15").toISOString(),
   },
 ]
 
 export const mockQuestions = [
   {
-    id: "1",
-    exam_id: "1",
-    professor_id: "1",
+    id: "q1",
+    exam_id: "e1",
+    professor_id: "p1",
     user_id: "mock-user-1",
-    title: "二分探索木の削除操作について",
-    content: "二分探索木でノードを削除する際、子が2つある場合の処理方法について詳しく教えてください。",
-    created_at: new Date("2023-07-20").toISOString(),
-  },
-  {
-    id: "2",
-    exam_id: "2",
-    professor_id: "1",
-    user_id: "mock-user-1",
-    title: "ダイクストラ法の実装について",
-    content: "ダイクストラ法を実装する際、優先度付きキューを使う理由を教えてください。",
-    created_at: new Date("2023-09-25").toISOString(),
+    title: "SFDの符号について",
+    content: "せん断力の符号の定義がいまいち分かりません。時計回りに回そうとする力がプラスで合っていますか？",
+    created_at: new Date("2023-06-22").toISOString(),
   },
 ]
 
