@@ -57,7 +57,7 @@ export default function HomePage() {
                 <div>
                   <CardTitle>閲覧</CardTitle>
                   <CardDescription>
-                    過去問を閲覧・類題作成・質問
+                    過去問を閲覧・質問
                   </CardDescription>
                 </div>
               </div>
@@ -106,7 +106,7 @@ export default function HomePage() {
             </CardHeader>
             <CardContent>
               <Button asChild className="w-full" size="lg" variant="outline">
-                <Link href="ページを作ってに置く">類題作成へ</Link>
+                <Link href="/ruidaisakusei">類題作成へ</Link>
               </Button>
             </CardContent>
           </Card>
