@@ -1,14 +1,15 @@
+"use client"
+
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { AlertTriangle } from "lucide-react"
+import { useSearchParams } from "next/navigation"
+import { Suspense } from "react"
 
 // PDFのデザインカンプ (4枚目) のレイアウトを流用
-export default async function ErrorPage({
-  searchParams,
-}: {
-  searchParams: Promise<{ error: string }>
-}) {
-  const params = await searchParams
+function ErrorContent() {
+  const searchParams = useSearchParams()
+  const error = searchParams.get("error")
 
   return (
     <div className="flex flex-col min-h-svh bg-background">
@@ -33,8 +34,8 @@ export default async function ErrorPage({
           <AlertTriangle className="h-32 w-32 text-destructive" strokeWidth={1.5} />
 
           <p className="text-base text-muted-foreground max-w-md">
-            {params?.error ? (
-              <span>エラーが発生しました: {params.error}</span>
+            {error ? (
+              <span>エラーが発生しました: {error}</span>
             ) : (
               <span>予期しないエラーが発生しました。</span>
             )}
@@ -46,5 +47,13 @@ export default async function ErrorPage({
         </div>
       </main>
     </div>
+  )
+}
+
+export default function ErrorPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ErrorContent />
+    </Suspense>
   )
 }
