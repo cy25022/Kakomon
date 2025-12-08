@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button"
-import Link from "next/link"
+ 
 import { ChevronLeft } from "lucide-react"
 import { getMockDepartments, getMockFacultyById } from "@/lib/mock-data"
 import { redirect } from "next/navigation"
@@ -25,11 +25,9 @@ export default async function DepartmentsPage({
       {/* PDFの青いヘッダー */}
       <header className="bg-primary text-primary-foreground shadow-md sticky top-0 z-10">
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
-          <Button variant="ghost" size="icon" asChild className="hover:bg-primary/80">
-            <Link href="/study/faculties">
-              <ChevronLeft className="h-6 w-6" />
-              <span className="sr-only">戻る</span>
-            </Link>
+          <Button variant="ghost" size="icon" href="/study/faculties" className="hover:bg-primary/80">
+            <ChevronLeft className="h-6 w-6" />
+            <span className="sr-only">戻る</span>
           </Button>
           <div className="text-center absolute left-1/2 -translate-x-1/2">
             <h1 className="text-xl font-bold">

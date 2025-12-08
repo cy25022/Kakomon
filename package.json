@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "build": "next build",
+    "export": "next export",
     "dev": "next dev",
     "lint": "eslint .",
     "start": "next start"
@@ -61,7 +62,7 @@
     "zod": "3.25.76"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.1.9",
+    "@tailwindcss/postcss": "^4.1.17",
     "@types/node": "^24",
     "@types/react": "^19",
     "@types/react-dom": "^19",
