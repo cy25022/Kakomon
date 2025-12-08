@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button"
- 
+import Link from "next/link"
+
 import { ChevronLeft } from "lucide-react"
 import { getMockDepartments, getMockFacultyById } from "@/lib/mock-data"
 import { redirect } from "next/navigation"
