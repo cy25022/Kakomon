@@ -14,56 +14,69 @@ export const mockFaculties = [
 ]
 
 export const mockDepartments = [
-  // 工学部
-  { id: "101", faculty_id: "1", name: "機械工学課程", created_at: new Date().toISOString() },
-  { id: "102", faculty_id: "1", name: "物質化学課程", created_at: new Date().toISOString() },
-  { id: "103", faculty_id: "1", name: "電気電子工学課程", created_at: new Date().toISOString() },
-  { id: "104", faculty_id: "1", name: "情報・通信工学課程", created_at: new Date().toISOString() },
-  { id: "105", faculty_id: "1", name: "土木工学課程", created_at: new Date().toISOString() },
-  { id: "106", faculty_id: "1", name: "先進国際課程", created_at: new Date().toISOString() },
-  
-  // システム理工学部
-  { id: "201", faculty_id: "2", name: "電子情報システム学科", created_at: new Date().toISOString() },
-  { id: "202", faculty_id: "2", name: "機械制御システム学科", created_at: new Date().toISOString() },
-  { id: "203", faculty_id: "2", name: "環境システム学科", created_at: new Date().toISOString() },
-  { id: "204", faculty_id: "2", name: "生命科学科", created_at: new Date().toISOString() },
-  { id: "205", faculty_id: "2", name: "数理科学科", created_at: new Date().toISOString() },
-
-  // デザイン工学部 (コースを学科レベルとして扱います)
-  { id: "301", faculty_id: "3", name: "社会情報システムコース", created_at: new Date().toISOString() },
-  { id: "302", faculty_id: "3", name: "UXコース", created_at: new Date().toISOString() },
-  { id: "303", faculty_id: "3", name: "プロダクトコース", created_at: new Date().toISOString() },
-
-  // 建築学部 (コースを学科レベルとして扱います)
-  { id: "401", faculty_id: "4", name: "APコース", created_at: new Date().toISOString() }, // 先進的プロジェクトデザインコース
-  { id: "402", faculty_id: "4", name: "SAコース", created_at: new Date().toISOString() }, // 空間・建築デザインコース
-  { id: "403", faculty_id: "4", name: "UAコース", created_at: new Date().toISOString() }, // 都市・建築デザインコース
+  { id: "1", faculty_id: "1", name: "情報・通信工学科", created_at: new Date().toISOString() },
+  { id: "2", faculty_id: "1", name: "機械工学科", created_at: new Date().toISOString() },
+  { id: "3", faculty_id: "1", name: "物質化学科", created_at: new Date().toISOString() },
+  { id: "4", faculty_id: "1", name: "電気電子工学科", created_at: new Date().toISOString() },
+  { id: "5", faculty_id: "1", name: "土木工学科", created_at: new Date().toISOString() },
+  { id: "6", faculty_id: "1", name: "先進国際学科", created_at: new Date().toISOString() },
+  { id: "7", faculty_id: "2", name: "電子情報システム学科", created_at: new Date().toISOString() },
+  { id: "8", faculty_id: "2", name: "機械制御システム学科", created_at: new Date().toISOString() },
+  { id: "9", faculty_id: "2", name: "環境システム学科", created_at: new Date().toISOString() },
+  { id: "10", faculty_id: "2", name: "生命科学科", created_at: new Date().toISOString() },
+  { id: "11", faculty_id: "2", name: "数理科学科", created_at: new Date().toISOString() },
+  { id: "12", faculty_id: "3", name: "デザイン工学科", created_at: new Date().toISOString() },
+  { id: "13", faculty_id: "4", name: "建築学科", created_at: new Date().toISOString() },
 ]
 
 export const mockSubjects = [
-  // 工学部 機械工学課程
-  { id: "s101", department_id: "101", name: "材料力学", created_at: new Date().toISOString() },
-  { id: "s102", department_id: "101", name: "熱力学", created_at: new Date().toISOString() },
-  // 工学部 情報・通信工学課程
-  { id: "s103", department_id: "104", name: "アルゴリズムとデータ構造", created_at: new Date().toISOString() },
-  { id: "s104", department_id: "104", name: "通信ネットワーク", created_at: new Date().toISOString() },
-  // システム理工学部 電子情報システム学科
-  { id: "s201", department_id: "201", name: "回路理論", created_at: new Date().toISOString() },
-  { id: "s202", department_id: "201", name: "信号処理", created_at: new Date().toISOString() },
-  // デザイン工学部 UXコース
-  { id: "s301", department_id: "302", name: "UXデザイン概論", created_at: new Date().toISOString() },
-  { id: "s302", department_id: "302", name: "インタフェース設計", created_at: new Date().toISOString() },
-  // 建築学部 SAコース
-  { id: "s401", department_id: "402", name: "建築設計演習", created_at: new Date().toISOString() },
-  { id: "s402", department_id: "402", name: "建築構造力学", created_at: new Date().toISOString() },
+  { id: "1", department_id: "1", name: "情報通信コース", created_at: new Date().toISOString() },
+  { id: "2", department_id: "1", name: "情報工学コース", created_at: new Date().toISOString() },
+  { id: "3", department_id: "2", name: "基幹機械コース", created_at: new Date().toISOString() },
+  { id: "4", department_id: "2", name: "先進機械コース", created_at: new Date().toISOString() },
+  { id: "5", department_id: "3", name: "環境・物質工学コース", created_at: new Date().toISOString() },
+  { id: "6", department_id: "3", name: "化学・生命工学コース", created_at: new Date().toISOString() },
+  { id: "7", department_id: "4", name: "電気・ロボット工学コース", created_at: new Date().toISOString() },
+  { id: "8", department_id: "4", name: "先端電子工学コース", created_at: new Date().toISOString() },
+  { id: "9", department_id: "5", name: "都市・環境コース", created_at: new Date().toISOString() },
+  { id: "10", department_id: "6", name: "先進国際コース", created_at: new Date().toISOString() },
+  { id: "11", department_id: "7", name: "電子情報システムコース", created_at: new Date().toISOString() },
+  { id: "12", department_id: "8", name: "機械制御システムコース", created_at: new Date().toISOString() },
+  { id: "13", department_id: "9", name: "環境システムコース", created_at: new Date().toISOString() },
+  { id: "14", department_id: "10", name: "生命科学コース", created_at: new Date().toISOString() },
+  { id: "15", department_id: "10", name: "生命医工学コース", created_at: new Date().toISOString() },
+  { id: "16", department_id: "11", name: "数理科学コース", created_at: new Date().toISOString() },
+  { id: "17", department_id: "12", name: "社会情報システムコース", created_at: new Date().toISOString() },
+  { id: "18", department_id: "12", name: "UXデザインコース", created_at: new Date().toISOString() },
+  { id: "19", department_id: "12", name: "プロダクトデザインコース", created_at: new Date().toISOString() },
+  { id: "20", department_id: "13", name: "APコース", created_at: new Date().toISOString() },
+  { id: "21", department_id: "13", name: "SAコース", created_at: new Date().toISOString() },
+  { id: "22", department_id: "13", name: "UAコース", created_at: new Date().toISOString() },
 ]
 
 export const mockProfessors = [
-  { id: "p1", subject_id: "s101", name: "佐藤 健一", created_at: new Date().toISOString() },
-  { id: "p2", subject_id: "s103", name: "鈴木 愛", created_at: new Date().toISOString() },
-  { id: "p3", subject_id: "s201", name: "高橋 誠", created_at: new Date().toISOString() },
-  { id: "p4", subject_id: "s301", name: "田中 美咲", created_at: new Date().toISOString() },
-  { id: "p5", subject_id: "s401", name: "伊藤 建築", created_at: new Date().toISOString() },
+  { id: "1", subject_id: "1", name: "田中太郎", created_at: new Date().toISOString() },//教授の名前を設定//
+  { id: "2", subject_id: "1", name: "佐藤花子", created_at: new Date().toISOString() },
+  { id: "3", subject_id: "2", name: "鈴木一郎", created_at: new Date().toISOString() },
+  { id: "4", subject_id: "3", name: "山田次郎", created_at: new Date().toISOString() },
+  { id: "5", subject_id: "4", name: "中村三郎", created_at: new Date().toISOString() },
+  { id: "6", subject_id: "5", name: "小林四郎", created_at: new Date().toISOString() },
+  { id: "7", subject_id: "6", name: "加藤五郎", created_at: new Date().toISOString() },
+  { id: "8", subject_id: "7", name: "吉田六郎", created_at: new Date().toISOString() },
+  { id: "9", subject_id: "8", name: "高橋三郎", created_at: new Date().toISOString() },
+  { id: "10", subject_id: "9", name: "斎藤七郎", created_at: new Date().toISOString() },  
+  { id: "11", subject_id: "10", name: "渡辺八郎", created_at: new Date().toISOString() },
+  { id: "12", subject_id: "11", name: "伊藤九郎", created_at: new Date().toISOString() },
+  { id: "13", subject_id: "12", name: "松本十郎", created_at: new Date().toISOString() },
+  { id: "14", subject_id: "13", name: "林十一郎", created_at: new Date().toISOString() },
+  { id: "15", subject_id: "14", name: "清水十二郎", created_at: new Date().toISOString() },
+  { id: "16", subject_id: "15", name: "山本十三郎", created_at: new Date().toISOString() },
+  { id: "17", subject_id: "16", name: "池田十四郎", created_at: new Date().toISOString() },
+  { id: "18", subject_id: "17", name: "橋本十五郎", created_at: new Date().toISOString() },
+  { id: "19", subject_id: "18", name: "石井十六郎", created_at: new Date().toISOString() },
+  { id: "20", subject_id: "19", name: "青木十七郎", created_at: new Date().toISOString() },
+  { id: "21", subject_id: "20", name: "藤田十八郎", created_at: new Date().toISOString() },
+  { id: "22", subject_id: "21", name: "西村十九郎", created_at: new Date().toISOString() },
 ]
 
 export const mockExams = [
@@ -102,6 +115,18 @@ export const mockExams = [
       "「都市の中の隠れ家」をテーマにした設計課題において、各自のコンセプトと空間構成の意図を記述すること。また、周辺環境との関係性についても触れること。",
     user_id: "mock-user-1",
     created_at: new Date("2024-07-15").toISOString(),
+  },
+   {
+    id: "4",
+    professor_id: "5",
+    title: "2024年度 中間試験",
+    year: 2024,
+    semester: "前期",
+    exam_type: "中間試験",
+    content:
+      "/linear_algebra_2024_first_midterm.tex.pdf",
+    user_id: "mock-user-1",
+    created_at: new Date("2024-07-10").toISOString(),
   },
 ]
 

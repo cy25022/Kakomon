@@ -47,17 +47,20 @@ export default async function DepartmentsPage({
           </h2>
 
           <div className="flex flex-col gap-4">
-            {departments.map((department) => (
-              <Button
-                key={department.id}
-                variant="secondary" // PDFのグレーボタン (#E0E0E0)
-                className="w-full justify-start"
-                size="default" // h-14
-                href={`/study/subjects?department=${department.id}`}
+           {departments.map((department) => (
+             <Button
+              key={department.id}
+              asChild
+              className="w-full"
+              size="lg"
+              variant="outline"
               >
-                {department.name}
-              </Button>
+              <Link href={`/study/subjects?department=${department.id}`}>{/* /lib/mock-data.tsにあるidを使ってリンクを生成 */}
+               {department.name}
+              </Link>
+             </Button>
             ))}
+
           </div>
           
         </div>
