@@ -56,11 +56,28 @@ export const mockSubjects = [
 ]
 
 export const mockProfessors = [
-  { id: "1", subject_id: "1", name: "田中太郎", created_at: new Date().toISOString() },
+  { id: "1", subject_id: "1", name: "田中太郎", created_at: new Date().toISOString() },//教授の名前を設定//
   { id: "2", subject_id: "1", name: "佐藤花子", created_at: new Date().toISOString() },
   { id: "3", subject_id: "2", name: "鈴木一郎", created_at: new Date().toISOString() },
   { id: "4", subject_id: "3", name: "山田次郎", created_at: new Date().toISOString() },
-  { id: "5", subject_id: "5", name: "高橋三郎", created_at: new Date().toISOString() },
+  { id: "5", subject_id: "4", name: "中村三郎", created_at: new Date().toISOString() },
+  { id: "6", subject_id: "5", name: "小林四郎", created_at: new Date().toISOString() },
+  { id: "7", subject_id: "6", name: "加藤五郎", created_at: new Date().toISOString() },
+  { id: "8", subject_id: "7", name: "吉田六郎", created_at: new Date().toISOString() },
+  { id: "9", subject_id: "8", name: "高橋三郎", created_at: new Date().toISOString() },
+  { id: "10", subject_id: "9", name: "斎藤七郎", created_at: new Date().toISOString() },  
+  { id: "11", subject_id: "10", name: "渡辺八郎", created_at: new Date().toISOString() },
+  { id: "12", subject_id: "11", name: "伊藤九郎", created_at: new Date().toISOString() },
+  { id: "13", subject_id: "12", name: "松本十郎", created_at: new Date().toISOString() },
+  { id: "14", subject_id: "13", name: "林十一郎", created_at: new Date().toISOString() },
+  { id: "15", subject_id: "14", name: "清水十二郎", created_at: new Date().toISOString() },
+  { id: "16", subject_id: "15", name: "山本十三郎", created_at: new Date().toISOString() },
+  { id: "17", subject_id: "16", name: "池田十四郎", created_at: new Date().toISOString() },
+  { id: "18", subject_id: "17", name: "橋本十五郎", created_at: new Date().toISOString() },
+  { id: "19", subject_id: "18", name: "石井十六郎", created_at: new Date().toISOString() },
+  { id: "20", subject_id: "19", name: "青木十七郎", created_at: new Date().toISOString() },
+  { id: "21", subject_id: "20", name: "藤田十八郎", created_at: new Date().toISOString() },
+  { id: "22", subject_id: "21", name: "西村十九郎", created_at: new Date().toISOString() },
 ]
 
 export const mockExams = [
