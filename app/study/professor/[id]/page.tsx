@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button"
- 
+
 import { ChevronLeft } from "lucide-react"
-import { getMockProfessorById, getMockSubjectById, getMockDepartmentById, mockProfessors } from "@/lib/mock-data"
+import { getMockProfessorById, getMockSubjectById, mockProfessors } from "@/lib/mock-data"
 import { redirect } from "next/navigation"
 
 // Static Export用にビルド時に生成するパスのリストを定義
@@ -12,12 +12,12 @@ export function generateStaticParams() {
 }
 
 // PDF 1枚目 (ホーム) のボタンレイアウトを流用
-export default async function ProfessorDetailPage({
+export default function ProfessorDetailPage({
   params,
 }: {
-  params: Promise<{ id: string }>
+  params: { id: string }
 }) {
-  const { id } = await params
+  const { id } = params
   const professor = getMockProfessorById(id)
 
   if (!professor) {
@@ -25,7 +25,6 @@ export default async function ProfessorDetailPage({
   }
 
   const subject = getMockSubjectById(professor.subject_id)
-  const department = getMockDepartmentById(subject?.department_id || "")
 
   return (
     <div className="flex flex-col min-h-svh bg-background">
