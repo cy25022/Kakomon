@@ -8,10 +8,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Label } from "@/components/ui/label"
 import { ChevronLeft } from "lucide-react"
 import { getMockFaculties, getMockDepartments, getMockSubjects, getMockProfessors } from "@/lib/mock-data"
+import { useToast } from "@/hooks/use-toast"
 
 // 閲覧用の学部・学科選択を1ページで完結させる
 export default function FacultiesPage() {
   const router = useRouter()
+  const { toast } = useToast()
+  const fixedWidthClass = "w-[33vw] min-w-[33vw] max-w-[33vw]"
 
   const [selectedFaculty, setSelectedFaculty] = useState("")
   const [selectedDepartment, setSelectedDepartment] = useState("")
@@ -43,7 +46,11 @@ export default function FacultiesPage() {
     if (selectedFaculty && selectedDepartment && selectedSubject && selectedProfessor) {
       router.push(`/study/professor/${selectedProfessor}`)
     } else {
-      alert("すべての項目を選択してください")
+      toast({
+        title: "選択が不足しています",
+        description: "学部・学科・科目・教授をすべて選択してください。",
+        variant: "destructive",
+      })
     }
   }
 
@@ -66,7 +73,7 @@ export default function FacultiesPage() {
       {/* メインコンテンツ */}
       <main className="container mx-auto flex flex-1 flex-col p-4 py-8">
         <div className="w-full mx-auto space-y-8 py-4 flex flex-col items-center">
-          <div className="space-y-8 w-[33vw] min-w-[33vw] max-w-[33vw]">
+          <div className={`space-y-8 ${fixedWidthClass}`}>
             <div className="grid gap-2">
               <Label htmlFor="faculty" className="text-base font-semibold">学部・専攻</Label>
               <Select value={selectedFaculty} onValueChange={setSelectedFaculty}>
@@ -133,7 +140,7 @@ export default function FacultiesPage() {
           </div>
 
           <div className="flex justify-center w-full">
-            <Button onClick={handleNext} className="w-[33vw] min-w-[33vw] max-w-[33vw] no-underline" size="default">
+            <Button onClick={handleNext} className={`${fixedWidthClass} no-underline`} size="default">
               次へ
             </Button>
           </div>

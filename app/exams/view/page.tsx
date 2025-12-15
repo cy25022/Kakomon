@@ -59,7 +59,7 @@ function ViewExamsContent() {
                 <Button
                   key={exam.id}
                   variant="secondary"
-                  className="w-full justify-start rounded-full !w-full !min-w-0 !max-w-full"
+                  className="w-full justify-start rounded-full"
                   size="default"
                   href={`/exams/${exam.id}`}
                 >
@@ -74,7 +74,7 @@ function ViewExamsContent() {
           </div>
           
           <Button
-            className="w-[33vw] min-w-[33vw] max-w-[33vw] mx-auto flex !w-[33vw] !min-w-[33vw] !max-w-[33vw]"
+                      className="mx-auto flex w-[33vw] min-w-[33vw] max-w-[33vw]"
             size="default"
             href={`/exams/generate?professor=${professor}`}
           >

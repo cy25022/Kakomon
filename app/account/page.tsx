@@ -66,10 +66,6 @@ export default function AccountPage() {
 
           {/* メニュー */}
           <div className="space-y-4">
-            <Button variant="secondary" className="w-full justify-start h-14 rounded-2xl text-base" size="lg" href="/settings">
-              <Settings className="h-5 w-5 mr-3" />
-              設定
-            </Button>
               <Button variant="secondary" className="w-full justify-start" size="default" href="/settings">
                 <Settings className="h-5 w-5 mr-3" />
                 設定
@@ -77,14 +73,6 @@ export default function AccountPage() {
             
             {/* デモ用のダミーログアウトフォーム */}
             <form action="/api/auth/logout" method="post">
-              <Button 
-                type="submit"
-                variant="secondary" 
-                className="w-full justify-start h-14 rounded-2xl text-base text-destructive hover:text-destructive" 
-                size="lg">
-                <LogOut className="h-5 w-5 mr-3" />
-                ログアウト
-              </Button>
                 <Button 
                   type="submit"
                   variant="secondary" 

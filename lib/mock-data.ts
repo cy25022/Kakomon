@@ -52,6 +52,16 @@ export const mockSubjects = [
   { id: "s10", department_id: "8", name: "制御工学", created_at: new Date().toISOString() },
   { id: "s11", department_id: "9", name: "環境計画", created_at: new Date().toISOString() },
   { id: "s12", department_id: "13a", name: "建築設計", created_at: new Date().toISOString() },
+  { id: "s13", department_id: "5", name: "応用数学", created_at: new Date().toISOString() },
+  { id: "s14", department_id: "6", name: "情報工学", created_at: new Date().toISOString() },
+  { id: "s15", department_id: "10a", name: "都市計画", created_at: new Date().toISOString() },
+  { id: "s16", department_id: "10b", name: "建築史", created_at: new Date().toISOString() },
+  { id: "s17", department_id: "11", name: "構造力学", created_at: new Date().toISOString() },
+  { id: "s18", department_id: "12a", name: "デザイン基礎", created_at: new Date().toISOString() },
+  { id: "s19", department_id: "12b", name: "プロダクトデザイン", created_at: new Date().toISOString() },
+  { id: "s20", department_id: "12c", name: "インターフェースデザイン", created_at: new Date().toISOString() },
+  { id: "s21", department_id: "13b", name: "建築環境工学", created_at: new Date().toISOString() },
+  { id: "s22", department_id: "13c", name: "建築構造設計", created_at: new Date().toISOString() },
 ]
 
 export const mockProfessors = [
@@ -124,7 +134,7 @@ export const mockQuestions = [
   {
     id: "q1",
     exam_id: "e1",
-    professor_id: "p1",
+    professor_id: "1",
     user_id: "mock-user-1",
     title: "SFDの符号について",
     content: "せん断力の符号の定義がいまいち分かりません。時計回りに回そうとする力がプラスで合っていますか？",
