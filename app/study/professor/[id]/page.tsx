@@ -1,4 +1,5 @@
 import ProfessorClient from "./professor-client"
+import { mockProfessors } from "@/lib/mock-data"
 
 // Static Export用にビルド時に生成するパスのリストを定義
 export function generateStaticParams() {
