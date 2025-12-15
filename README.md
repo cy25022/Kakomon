@@ -1,213 +1,99 @@
-# 📚 Kakomon - 過去問共有プラットフォーム
+git clone https://github.com/al25133/Kakomon.git
+## Kakomon - 過去問共有デモ
 
-学生が大学の過去問を共有し、AI による類題作成や質問ができる学習支援プラットフォームです。
-
-**技術スタック**: Next.js 16 (App Router) | React 19 | TypeScript | Tailwind CSS v4 | shadcn/ui
-
----
-
-## ✨ 主な機能
-
-本プロジェクトは、学生が過去問にアクセスしやすくし、より深い学習をサポートすることを目的としています。
-
-### 📖 過去問の閲覧
-- **階層的な検索**: 学部 → 学科 → 科目 → 教授 の階層で、投稿された過去問を簡単に検索・閲覧できます
-- **分かりやすいナビゲーション**: 各レベルの選択に応じて、次のレベルの選択肢を絞り込み表示
-
-### 📤 過去問の共有
-- **簡単なアップロード**: 自分が持っている過去問をアップロードし、他の学生と共有できます
-- **メタデータ管理**: 学部、学科、科目、教授情報を自動で管理
-
-### 🤖 AI による類題作成
-- **自動生成機能**: 登録された過去問をベースに、OpenAI API (gpt-4o-mini) を利用して新しい類題を自動生成します
-- **ユーザー設定**: APIキー設定画面から個人の OpenAI APIキーを登録できます
-
-### 💬 質問機能
-- **Q&A セクション**: 特定の過去問に対して質問を投稿できます
-- **コミュニティ学習**: 他のユーザーとの知識共有を促進
-
-### 🔐 認証・ユーザー管理
-- **登録・ログイン**: ユーザー登録、ログイン機能
-- **アカウント管理**: 設定ページでプロフィール管理
-- **セッション管理**: セキュアなセッション管理
-
-> **注**: 現在、`lib/mock-data.ts` によるモックデータで動作しています。本番環境ではデータベース連携が必要です。
+芝浦工業大学の過去問をモックデータで閲覧・共有し、OpenAI API を使った簡易な類題生成を試せる Next.js 16 デモアプリです。バックエンドや永続化は未実装で、`lib/mock-data.ts` の配列とブラウザの `localStorage` だけで動作します。
 
 ---
 
-## 🛠️ 技術スタック
+## 実装済みの主な機能
+
+- トップ: ルートは `/home` へリダイレクトし、共有・閲覧・類題作成ページへの導線を配置。
+- 閲覧フロー: `/study/faculties` で学部→学科→科目→教授を一括選択し、`/study/professor/[id]` から過去問閲覧・類題作成・質問作成に遷移。全データはモック。
+- 過去問閲覧: `/exams/view?professor=...` で教授別の過去問一覧を表示し、`/exams/[id]` で本文をテキスト表示。関連質問（モック）も同画面に表示。
+- 質問投稿（デモ）: `/questions/create` でフォーム入力後、2 秒待機のデモ挙動でリダイレクトするのみ（保存や API 連携なし）。
+- 過去問共有（デモ）: `/share` は 2 ステップでメタ情報と本文を入力し、完了後 `/auth/sign-up-success` に遷移するだけ。保存処理は未実装。
+- 類題生成: `/exams/generate?professor=...` で過去問を選び、ローカルに保存した OpenAI API キーを使って `/api/generate-similar` を呼び出し生成テキストを表示。
+- 追加の類題作成ページ: `/ruidaisakusei` からも `/api/generate-similar` を呼び出す簡易 UI を提供（同じ API キーが必要）。
+- 設定: `/settings` で OpenAI API キーを入力し `localStorage` に保存。プロフィール項目はモックユーザー表示のみで編集不可。
+- アカウント: `/account` にモックユーザーの情報と投稿数（モックから集計）を表示。`/api/auth/logout` はログアウト処理を持たず、ログイン画面へリダイレクトするだけ。
+- 認証画面: `/auth/login`・`/auth/sign-up` はフロント側のバリデーションとダミー待機のみで、認証基盤との連携はありません。
+
+---
+
+## 技術スタック
 
 | 領域 | 技術 | バージョン |
-|------|------|----------|
-| **フレームワーク** | Next.js | 16.0.0 |
-| **UI ライブラリ** | React | 19.2.0 |
-| **言語** | TypeScript | ^5 |
-| **スタイリング** | Tailwind CSS | ^4.1.9 |
-| **UI コンポーネント** | shadcn/ui | - |
-| **フォーム管理** | React Hook Form | ^7.60.0 |
-| **バリデーション** | Zod | 3.25.76 |
-| **AI API** | OpenAI | - |
-| **その他** | Date-fns, Recharts, Sonner | - |
+| --- | --- | --- |
+| フレームワーク | Next.js | 16.0.10 |
+| UI | React | 19.2.3 |
+| 言語 | TypeScript | ^5 |
+| スタイリング | Tailwind CSS | ^4.1.18 |
+| コンポーネント | shadcn/ui (Radix UI ベース) | - |
+| フォーム | react-hook-form | ^7.68.0 |
+| バリデーション | zod | 4.1.13 |
+| グラフ/通知 | recharts, sonner | 3.5.1 / ^2.0.7 |
 
 ---
 
-## 📁 プロジェクト構成
+## データと制限事項
 
-```
-Kakomon/
-├── app/                          # Next.js App Router
-│   ├── api/                       # API ルート
-│   │   ├── auth/                  # 認証関連 API
-│   │   └── generate-similar/      # 類題生成 API
-│   ├── auth/                      # 認証ページ
-│   │   ├── login/
-│   │   ├── sign-up/
-│   │   └── ...
-│   ├── exams/                     # 試験ページ
-│   ├── questions/                 # 質問ページ
-│   ├── share/                     # 共有ページ
-│   ├── study/                     # 学習ページ (階層閲覧)
-│   └── layout.tsx                 # ルートレイアウト
-├── components/                    # React コンポーネント
-│   ├── ui/                        # shadcn/ui コンポーネント
-│   └── theme-provider.tsx         # テーマプロバイダー
-├── hooks/                         # カスタムフック
-│   ├── use-mobile.ts              # モバイル判定
-│   └── use-toast.ts               # トースト通知
-├── lib/                           # ユーティリティ
-│   ├── mock-data.ts               # モックデータ
-│   └── utils.ts                   # ユーティリティ関数
-├── public/                        # 静的ファイル
-├── scripts/                       # SQL スクリプト
-├── styles/                        # グローバルスタイル
-├── package.json                   # 依存関係
-├── tsconfig.json                  # TypeScript 設定
-├── tailwind.config.ts             # Tailwind CSS 設定
-├── next.config.ts                 # Next.js 設定
-└── README.md                      # このファイル
-```
+- データソースは `lib/mock-data.ts` のモック配列のみ。DB や API への保存はありません。
+- OpenAI API キーはブラウザの `localStorage` に保存し、サーバーには送信しません（`openai_api_key`）。
+- ファイルアップロードや PDF 表示は未実装で、過去問本文はすべてテキスト表示。
+- 認証・セッション管理は実装されておらず、ログイン/登録はデモ挙動です。
 
 ---
 
-## 🚀 セットアップ
+## セットアップ
 
-### 必要な環境
-- Node.js 18.x 以上
+### 前提
+- Node.js 18 以上
 - npm または pnpm
 
-### インストール
-
+### 手順
 ```bash
-# リポジトリのクローン
 git clone https://github.com/al25133/Kakomon.git
 cd Kakomon
-
-# 依存関係のインストール
-npm install
-# または
-pnpm install
+npm install      # または pnpm install
+npm run dev      # または pnpm dev
 ```
 
-### 開発サーバーの起動
-
-```bash
-npm run dev
-# または
-pnpm dev
-```
-
-ブラウザで `http://localhost:3000` を開きます。
+`http://localhost:3000` にアクセスすると `/home` にリダイレクトされます。
 
 ### ビルド
-
 ```bash
 npm run build
-npm start
-# または
-pnpm build
-pnpm start
+npm start        # または pnpm build && pnpm start
 ```
 
 ---
-## 📋 ページ一覧
 
-### 認証ページ
-- **ログイン** (`/auth/login`) - メールアドレスとパスワードでログイン
-- **新規登録** (`/auth/sign-up`) - 新しいアカウントを作成
-- **登録成功** (`/auth/sign-up-success`) - 登録完了画面
+## 主な画面フロー
 
-### 学習ページ
-- **ホーム** (`/home`) - メインページ
-- **過去問閲覧** (`/study/*`) - 学部 → 学科 → 科目 → 教授で階層検索
-- **試験詳細** (`/exams/[id]`) - 特定の試験の詳細と質問表示
-- **試験生成** (`/exams/generate`) - AI による試験類題生成
-
-### 管理ページ
-- **質問作成** (`/questions/create`) - 過去問に質問を投稿
-- **過去問共有** (`/share`) - 新しい過去問をアップロード
-- **アカウント設定** (`/account`) - プロフィール管理
-- **設定** (`/settings`) - アプリ設定（APIキー等）
+- ホーム: `/home` から「共有」「閲覧」「類題作成」へ遷移。
+- 閲覧: `/study/faculties` → 教授選択 → `/study/professor/[id]` → 過去問一覧 `/exams/view?professor=...` → 詳細 `/exams/[id]`。
+- 類題生成: `/exams/generate?professor=...` で過去問選択 → OpenAI で生成。API キー未設定時は警告を表示。
+- 質問作成: `/questions/create`（教授または試験 ID をクエリ指定）で投稿フォーム表示。
+- 共有: `/share` でメタ情報選択→本文入力→完了画面へ遷移。
+- 設定: `/settings` で OpenAI API キーを保存（ローカル専用）。
 
 ---
 
-## 🔌 API エンドポイント
+## API
 
-### 認証 API
-- `POST /api/auth/login` - ログイン
-- `POST /api/auth/logout` - ログアウト
+- `POST /api/generate-similar`
+	- リクエスト: `{ examContent: string, apiKey: string }`
+	- モデル: `gpt-4o-mini`
+	- レスポンス: `{ content: string }`（生成された類題テキスト）。失敗時はエラーメッセージを返却。
 
-### 類題生成 API
-- `POST /api/generate-similar` - OpenAI を使用して類題を生成
-
----
-
-## 🎨 デザイン
-
-本プロジェクトは、提供されたデザインカンプに基づいて構築されています。
-
-### カラースキーム
-- **プライマリ**: `oklch(0.58 0.19 256.5)` - メインの青
-- **セカンダリ**: `oklch(0.9 0.01 296.8)` - グレー
-- **ダークモード**: サポート
-
-### 角丸
-- **標準**: `1.5rem (24px)` - PDFデザインに基づく
+- `POST /api/auth/logout`
+	- セッション処理なしで `/auth/login` にリダイレクト。
 
 ---
 
-## 📝 使用例
+## 開発用メモ
 
-### ログイン
-1. `/auth/login` にアクセス
-2. メールアドレスとパスワードを入力
-3. ログインボタンをクリック
-
-### 過去問の検索
-1. `/home` または `/study/faculties` にアクセス
-2. 学部を選択
-3. 学科、科目、教授の順に選択
-4. 該当する過去問を表示
-
-### 過去問の共有
-1. `/share` にアクセス
-2. ステップ 1: 学部、学科、科目、教授を選択
-3. ステップ 2: タイトルと問題内容を入力
-4. アップロード
-
----
-
-## 🐛 既知の問題・TODO
-
-- [ ] OpenAI API 統合の完全実装
-- [ ] 画像アップロード機能（PDFのスキャン等）
-- [ ] リアルタイム Q&A 機能
-- [ ] 検索・フィルター機能の拡張
-- [ ] ユーザーレーティング・レビュー機能
-- [ ] モバイル アプリ版
-
----
-
-## 📞 サポート
-
-問題が発生した場合は、[GitHub Issues](https://github.com/al25133/Kakomon/issues) で報告してください。
+- 主要モック取得関数: `getMockFaculties`, `getMockDepartments`, `getMockSubjects`, `getMockProfessors`, `getMockExams`, `getMockQuestions` など。
+- `app/exams/[id]/page.tsx`・`app/study/professor/[id]/page.tsx` は `generateStaticParams` を使ってモックデータから静的パスを生成。
+- 類題生成や質問投稿などのフォームはデモ用のため、サーバー永続化や認証は別途実装が必要です。
 
