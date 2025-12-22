@@ -138,14 +138,14 @@ export default function FacultiesPage() {
           </div>
 
           <div className="flex justify-center w-full">
-            <Button
-              href={canProceed ? `/study/professor/${selectedProfessor}` : undefined}
-              onClick={!canProceed ? handleNext : undefined}
-              className={`${fixedWidthClass} no-underline`}
-              size="default"
-            >
-              次へ
-            </Button>
+                  <Button
+                    href={canProceed ? `/exams/view?professor=${selectedProfessor}` : undefined}
+                    onClick={!canProceed ? handleNext : undefined}
+                    className={`${fixedWidthClass} no-underline`}
+                    size="default"
+                  >
+                    次へ
+                  </Button>
           </div>
         </div>
       </main>
