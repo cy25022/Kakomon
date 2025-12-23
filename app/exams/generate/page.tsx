@@ -11,7 +11,7 @@ import { toast } from "sonner"
 import { useRouter, useSearchParams } from "next/navigation"
 import { getMockProfessorById, getMockSubjectById } from "@/lib/mock-data"
 
-export default function CreateQuestionPage() {
+export default function GenerateSimilarQuestionsPage() {
   const router = useRouter()
   const searchParams = useSearchParams()
 
