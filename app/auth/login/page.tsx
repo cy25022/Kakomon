@@ -64,7 +64,7 @@ export default function LoginPage() {
   return (
     <div className="flex flex-col min-h-svh bg-background">
       
-      {/* PDFの青いヘッダー (戻るボタン付き) */}
+      {/* PDFデザインのヘッダー (戻るボタン付き) */}
       <header className="bg-background text-foreground shadow-md sticky top-0 z-10">
         <div className="container mx-auto flex h-16 items-center justify-between px-4">
           <Button variant="ghost" size="icon" href="/" className="hover:bg-primary/80">
