@@ -1,9 +1,4 @@
-
-
-
-
-"use client"
-
+"use client";
 import { Suspense } from "react"
 import { useSearchParams } from "next/navigation"
 import { Button } from "@/components/ui/button"
