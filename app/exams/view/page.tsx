@@ -73,13 +73,13 @@ function ViewExamsContent() {
             )}
           </div>
           
-          <Button
+          {/* <Button
                       className="mx-auto flex w-[33vw] min-w-[33vw] max-w-[33vw]"
             size="default"
             href={`/exams/generate?professor=${professor}`}
           >
             類題作成
-          </Button>
+          </Button> */}
 
         </div>
       </main>
